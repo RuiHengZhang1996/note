@@ -1,0 +1,6 @@
+如何探查array  为空，    array.length == 0 ?
+
+
+如何探查ArrayList 为空，  List<int[]> merge = new ArrayList<int[]>;
+
+                         merge.size() = 0 ? 
