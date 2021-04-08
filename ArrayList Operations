@@ -1,0 +1,16 @@
+Arraylist
+
+
+
+List<int[]> merged = new ArrayList<int[]>();
+
+
+
+get
+merged.get(merged.size())
+
+
+
+add
+
+merged.add(new int{1,2})
