@@ -1,0 +1,4 @@
+int a[][] = new int[][];
+
+int x = a.length;
+int y = a[0].length;
