@@ -41,6 +41,8 @@ Arrays.sort(intervals, new Comparator<int[]>() {
   }
 });
 
+以上的   lambda写法：   Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+
 
 
 
