@@ -1,0 +1,6 @@
+Java 中的length是关于   求数组中有几个元素的
+
+Java中的length() 是    求字符串(Array)有几个字符（长度）
+
+
+size()是  求泛型里有几个元素的
