@@ -16,3 +16,6 @@ add
 merged.add(new int{1,2})
 
 merged.toArray(new int[merged.size()][])
+
+
+merged.clear();
