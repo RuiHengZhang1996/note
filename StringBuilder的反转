@@ -1,0 +1,7 @@
+
+
+String s = "";
+
+String reverse = new StringBuilder(s).reverse().toString();
+
+String reverse1 = new StringBuffer(s).reverse().toString();
