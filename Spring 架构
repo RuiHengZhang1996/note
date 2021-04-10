@@ -1,0 +1,85 @@
+spring --------------------
+
+
+
+IOC 
+
+and 
+
+AOP
+
+Spring 启动应用程序的时候，如何读取XML文件？ 
+
+1.加载
+
+2.解析XML文件
+
+3. 创建实例
+
+3.使用
+
+4.销毁          当然这些非常粗糙， 但是大致的过程就是这样的。
+
+
+
+
+但是我们深入看的时候，    IOC是  什么？   控制反转？    容器？ 
+
+
+容器存放  什么？  bean对象   那如果，我们存bean对象的集合，用list？set? 还是map?  那就是用map， 为什么？ 因为我们要根据某个值存，取值（k-v）。 所以Spring源码之中有很多map（hashmap，
+concurrenthashmap 等等）。 
+-------------------------------------------------------------------------------------------
+Spring是个容器
+
+
+----------------------------------------------------------------------
+一个框框
+
+容器里放对象，   怎么放对象呢？ 
+
+
+IOC container
+
+（创建对象有几种方式？） 1. new  2. 反射（反射的代码咋写？？
+
+  1.Class clazz = Class.forName();
+  2.Class clazz = 类名.class;
+  3.Class clazz = 对象名.getClass();
+  
+  -------------------------------------
+  Constructor ctor = clazz.getDeclareConstructor(); //获取构造器
+  Object obj = ctor.newinstance();
+  
+  一个基本的   反射
+
+
+
+）  3. 设计模式（工厂模式）  
+
+这个创建出来的对象，是公用的吗？ 所以在spring中， bean的scope默认是单例的。
+
+                           bean对象们
+ 
+ 
+xml 或者  注解 （json也可以定义（通过解析）） （抽象） 生成对象，  这两个里面到底定义的是什么？  bean的描述信息， bean的基础信息， bean是谁----- BeanDefination & BeanDefinationReader接口    
+
+那我们通过这个bean的信息，干啥。
+
+通过人(bean)的信息捏人(bean)。（实例化）create it (context = new ClassPathXmalApplicationContext();   context.getBean(Person.class));   然后给他初始化，给他捏脸。
+
+实例化（在堆中开辟一块空间，属性都是默认值） + 初始化（给属性赋值-----> 1. 填充属性（set方法完成）   2. 执行初始化方法(init method 完成)）
+
+这两个过程都完成之后，就变成了一个完整的对象
+
+------------------------------------------------------------------------------------------------
+
+
+Spring  生态 ------> 扩展性  代表了一个底层支撑， 通过这个底层，想干啥就干啥，为所欲为
+
+BeanFactory   Bean工厂    容器的老祖宗   ----- 包含了 getBean, 之类的一大堆子类实现。  里面有一个叫 DefaultListableBeanFactory包含了 add create delete之类的 Bena操作对象的方法。
+
+
+所以之前的BeanDefinition（捏人的时候） 会先把值传给通往beanFactory 的反射 （创建实例）， 里面有各种增强方法：beanFactoryPostProcessor（） 等等等   （扩展功能）可以修改bean defination之类的
+
+
+
