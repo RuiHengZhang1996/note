@@ -1,0 +1,36 @@
+在emp表中查询所有 (无需加“；”)
+
+  select * from emp
+
+
+在emp表中查询 ename, sal 两列， 
+
+  select ename, sal from emp
+
+
+在查询内容中加上算术表达式：  
+
+  select ename, sal * 12 from emp  
+
+
+给查询内容加上别名
+
+  1. select ename, sal * 12 annual_salary from emp 
+
+  2. select ename, sal * 12 `annual salary` from emp (经常使用到的  防止重名的小方法)
+
+  3. select ename, sal * 12 as `annual salary` from emp (加as更加标准，但是不太有所谓)
+  
+
+
+计算总收入
+
+  处理 null值 
+
+  select 2*null 结果为2*null， 也是null
+
+（设计一个表的时候，尽量不填空值，计算会不太方便，因为计算粘上null，啥都变成null 了）
+
+
+
+
