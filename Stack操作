@@ -1,0 +1,9 @@
+Stack<ListNode> stack = new Stack<ListNode>();
+
+ListNode temp = head;
+
+stack.push(temp);
+
+stack.size();
+
+stack.pop().val;
