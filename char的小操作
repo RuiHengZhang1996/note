@@ -1,0 +1,3 @@
+  char[] words = word.toCharArray();
+  
+  把 String 转换为 char 数组
