@@ -1,0 +1,5 @@
+java里
+
+string不能直接和int加减
+
+但是把string换成char就可以加减了哦， 记得asc码+-48哦， 哦哦哦哦哦
