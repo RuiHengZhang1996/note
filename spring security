@@ -1,0 +1,6 @@
+Sprung security 分为两大部分： 用户认证   以及   用户授权
+
+authencation : 用户认证： 用户是否能登录
+
+authorization： 用户是否有某些权限能去做某些事情
+
