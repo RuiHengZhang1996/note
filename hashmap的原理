@@ -1,0 +1,120 @@
+hashmap
+
+
+hashmap对象的创建
+
+HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+
+map.put(1,2);
+
+map.put(1,3);
+
+
+这里的要是 打印会打印（1,2），但是不会打印（1,3）。 因为key是不可以重复的。
+
+因为我们在存入（1,2）的时候，要根据key：1，调用hashCode()方法， 计算 key 的hashcode，然后通过这个hashcode，把他底层对应的数组的键位（就是在数组中的位置）算出来（底
+层的主数组），主数组的长度尚且未知，类型也尚且未知，数组元素的类型也尚且未知。 
+
+
+总结一下就是： 1. 算一下key的hashcode         2. 算一下数组中他要被放在哪里(通过一个算法)
+
+所以大概就是    key : value : hashcode : next 然后将这四个东西封装成一个对象， 这个对象从属于一个类（Entry类），那他就叫entry类的对象，他们都被存在一个主数组里
+
+
+
+那如果我们输入的键值是一样的，都是两个1， 同样的算法，算出同样的hashcode，这个被叫做hashcode collision， 哈希碰撞， 要是key一样的时候hash碰撞了，后面输入的值，就会
+被舍弃（在同一地址）。 但是如果key不一样的时候碰撞了，就要插入这个元素，以链表的形式，不过如果是jdk 1.7， 就插入在被插入的元素之前。 如果是1.8， 就插
+入在原先的元素之后。
+
+其实从上面的看， 有个小结论，hashmap就是基于数组 + 链表 组合而成的。 
+
+
+hashmap 
+
+
+有结构如：List（ArrayList， linkedlist）， 也有接口如map（hashmap，treemap）， 这些接口是collection部分的，
+
+
+//K,V的值在创建对象的时候确定
+public class HashMap<K,V> 
+  extends AbstractMap<K,V>     //hashmap的父类，abstractmap已经实现了map接口，但是源码中又实现一次（下面那一行）
+  implements Map<K, V>, Cloneable, Serializable {   
+  
+  里面有几个属性：
+  
+  有个default initial capacity 是 16， 是数组的长度。刚开始的数组就是长16
+  
+  还有个max capacity 1<<30 老大了， 2^30??? 
+  
+  还有个default load factor 负载因子： 0.75
+  
+  底层主数组Entry<K, V>[] table。
+  
+  添加元素个数 int size
+  
+  还有个 int threshold， 数组扩容的边界值
+  
+  还有个float load factor，由上面的default load factor 负载因子赋值
+  }
+  
+  然后hashmap里面有个构造器（空的），但是带了两个default的值，然后这个构造器call了本类的构造器，里面定义了以上的属性
+  
+  
+  hashmap中还有个put方法，是存储数据的方法。
+  他是这样的：
+  
+  1. 判断key是否为空？ 证明hashmap准许空key
+  2. 然后将key传入hash()方法： hash（key）， hash()中也有一个异或操作 h^=k.hashCode();，用二次散列解决哈希冲突（hash it one more time）, 获得hashcode
+  3. 算数组中对应的位置。 int i = indexFor(hash, table.length); table length是16 （indexFor是一个底层的与运算 h&(length - 1) 等效于 h对length- 1 取余， 为啥不
+  直接取余，原因是效率更高）
+  4. 如果放入的数组位置上没有元素的话， 那么直接添加元素就可以了，如果有元素（e != null）的话，发生哈希碰撞，比较hash值，比较key值（用equals比较是不是一个对象），是
+  的话就舍弃新元素。 添加元素也得判定一下，size是否大于threshold， 不大于就创建Entry对象，然后元素数量+1。 大于就调整threshold，也就是进行扩容， resize这个两倍，把
+  老数组的东西放进新数组，然后进行新的hashcode计算。
+  
+  
+  
+  
+  
+  
+  现在看看常问问题： 
+  
+  
+  1. 那负载因子为什么是  0.75？ 
+  
+  
+  因为如果负载因子是1， 空间利用率会大幅提升，但是这样很容易发生碰撞，这样就会产生链表，产生链表就会让查询效率变低。 
+  
+  但是如果负载因子为0.5，碰撞概率为低，产生链表几率也低，查询效率变高，但是空间利用率太低了。
+  
+  所以就选了0.5和1之间的0.75
+  
+  0.75 is a good trade off between space and time. 
+  
+  
+  
+  2. 主数组长度为什么是 2^n？ 
+  
+  
+  （1）h & (length - 1) 等效于 h % length 
+  
+  但是等效的前提是 length必须是2^n。 
+  
+  （2）防止hash冲突， 如果length = 8， 
+  
+  
+  hashcode = 3 ===========>>>> 00000011
+  
+  length - 1==============>>>> 00000111
+  
+  
+  hash 为3 和  hash 为2 与运算算出来的位置一定不一样
+  
+  但是如果length不为2^n 那么hash就很容易冲突，冲突就得产生链表，产生链表
+  
+  
+}
+
+
+
+
