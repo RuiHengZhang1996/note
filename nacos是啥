@@ -1,0 +1,28 @@
+nacos
+
+
+spring cloud 早期的注册中心： 用的是Eureaka， 慢慢被替换掉， 因为没更新了。
+
+
+nacos ，zookeeprer。 
+
+跟Eureaka比，nacos更强，因为nacos也能实现分布式配置，消息总线（灰度发布）。
+
+nacos都能实现 四大功能： 
+
+1。服务发现， 服务健康检测
+
+2。动态配置服务
+
+3。动态dns服务
+
+4.服务及元数据管理
+
+App: service consumer（调用方法的） <---------register-------------  nacos <---------register------------- service provider(提供方法的)
+
+      
+      service provider <----------- service consumer
+      service consumer -----------> service provider
+
+
+生产者在注册中心注册他的端口号， 消费者根据ip端口号找到生产者注册的方法，注意，需要的话可以互相调用
