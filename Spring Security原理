@@ -1,0 +1,53 @@
+Spring Security本质就是一个过滤器链
+
+
+
+
+
+有十几个过滤器， 过滤器在服务请求的时候创建， 过滤到请求内容，会执行里面的filter方法
+
+-----------------------------
+
+重点过滤器1号 ： 
+
+FilterSecurityInterceptor: 是一个方法级过滤器
+
+
+里面有初始化init()
+
+销毁destroy()
+
+doFilter()这个方法是真正的过滤方法， 里面有invoke()方法，判断是否等于空，总体作用就是判断之前过滤器是否放行了。
+
+
+--------------------------------
+
+重点过滤器二号： 
+ExceptionTranslation异常处理器，判断过滤中的异常
+
+
+-----------------------------
+
+重点过滤器三号；
+
+UsernamePasswordAuthentationFilter 对  /login 中的POST请求做拦截，然后校验用户名，密码。
+
+
+
+
+那么过滤器链条如何加载呢？ 
+
+1.配置过滤器（spring boot代替你做掉了）   
+
+2. doFilter()
+
+3. FilterInit()
+
+4. FilterChainProxy（管理filter的方法）--------> List<Filters> filters = this.getFilters(...)
+
+
+两个Spring Security重要接口
+
+UserDetailService： 
+
+PasswordEncoder
