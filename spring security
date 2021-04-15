@@ -4,3 +4,29 @@ authencation : 用户认证： 用户是否能登录
 
 authorization： 用户是否有某些权限能去做某些事情
 
+
+
+
+Spring 技术栈组成部分
+
+
+Shiro --------------和 spring security 各有千秋
+
+
+Spring security 有全面的权限控制，专门为web开发而设计，但是也可以脱离web环境， 但是很重量级。
+
+
+shiro呢， 也可以脱离web环境，但是脱离了以后有一些特定的需求需要手动代码定制
+
+
+Spring security 在有了spring boot 以后， 就变得好用了许多
+
+
+
+Spring security
+
+Core, web, config, oauth2.0, remoting等等
+
+
+新建spring boot工程， 引入spring security依赖， 编写controller进行测试
+
