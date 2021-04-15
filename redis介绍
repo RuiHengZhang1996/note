@@ -1,0 +1,21 @@
+Redis是一种Nosql
+
+基于key value
+
+读写都很快
+
+支持多种结构 string list hash set zset
+
+支持持久化， 通过内存进行存储，也可以存到硬盘里， 内存里效率很高。
+
+支持过期时间，支持事务
+
+
+什么数据适合放到redis呢？
+
+经常进行查询，不经常修改的数据放到redis作为缓存，不是很重要的数据
+
+例如财务数据中的经常改的钱，就不适合放到redis里
+
+
+redis和memcache的区别：redis数据持久化，memcache no
