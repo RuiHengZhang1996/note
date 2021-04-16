@@ -1,0 +1,93 @@
+Spring MVC 的执行流程
+
+
+MVC 是啥
+
+
+MVC是 一种软件设计规范。 不是 design pattern 而是一种architecture。 
+
+MVC可以将设计,数据,    分离
+
+模型   dao and service   model    提供要展示的数据， 所以包含数据和行为， 分为 service 和 dao
+
+
+视图  jsp            客户想看到的东西
+
+
+控制器 servlet          从前端接收数据， 这些数据用model处理，处理完毕后用view展示出来
+
+
+
+典型MVC： JSP  + Servlet + javabean 
+
+
+JSP 本质就是一个servlet， 早期web开发中，只有view  和  model， 没有controller，没有servlet， 架构简单，适合小型项目 
+
+
+
+
+职责分析
+
+controller  取得form data
+
+调用 service logic
+
+point to specific pages
+
+---------------------------
+
+
+model
+
+service logic
+dao
+
+
+-------------------------------
+view 
+
+show pages
+-------------------------------
+
+servlet 是啥？ 实现了servlet接口的程序叫servlet
+1.获取前端参数
+str method = req.getParameter("method")
+if method == add
+
+if method == delete
+
+2.然后调用业务层
+3.然后视图转发或者重定向--------》 写jsp
+
+
+4.   web.xml 注册servlet
+
+
+MVC框架做的事情
+
+1. 将url映射到java类或者类中方法，让他去执行一个操作
+2. 封装用户提交的数据，交给业务层判断
+3. 处理请求，调用相关的业务处理
+4. 将相应的数据进行渲染，
+
+
+现在看 Spring MVC
+
+Spring MVC is a part of Spring framework, it is a java acheived light web framework.
+
+It is a original web framework built on the Servlet API and has been included in the spring framework.
+
+Light, based on request and response
+
+can restful 
+
+
+Spring web 框架围绕DispatcherServlet设计
+
+servlet-----> service ----------> dao -------> 数据库
+
+
+DispatcherServlet可以将请求发送到不同的处理器，本质是个servlet，因为他继承了servlet接口。 可以用注解.
+
+
+
