@@ -1,0 +1,5 @@
+认证与授权思路
+
+如果系统的模块众多，每个模块都需要授权与认证，我们就选择基于token的形式进行授权与认证，用户根据用户名密码认证成功，然后获取当前用户角色的一系列权限值，并以用户名为key，
+权限列表为value的形式存入redis中，根据用户名相关信息生成token返回，浏览器将token记录到cookie中，每次调用api接口都默认将token携带到header请求头中，spring-security
+解析header头获取token信息，解析token获取当前用户名，根据用户名就可以从redis中获取权限列表，这样springsecurity就可以判断当前请求是否有权限访问。最后赋予用户权限。
