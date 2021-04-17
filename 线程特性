@@ -1,0 +1,98 @@
+线程三大性质： 
+
+可见性， 有序性， 原子性
+
+可见性：volatile 
+
+
+
+public class helloVolatile{
+  boolean running = ture;
+  
+  void m() {
+    sysout (e start)
+  while(running){
+  }
+  sysout(m end)
+  }
+  
+  main(){
+    helloVolatile t = new hv();
+    
+    new Thread(t::m, "t1").start;
+    
+    SleepHelper.sleepSeconds(1);
+    t.running = false;
+  }
+}
+
+这个线程结束不了，为啥？ 因为running = false 在内存上。不在缓存上。 
+
+我们有两个线程， t1线程，main线程
+
+cpu和内纯之间添加了一系列缓存，站在alu的角度，访问内存，跟访问r的速度差100倍，所以为了提高效率，加了这些缓存，工业实践，加了三个L1，L2， L3。
+
+
+一个线程会先把数据（running = true）先读到L3， 然后L2，然后L1. 当需要重新读r值得时候，去L1读，然后L2， 然后L3. while线程并不会去主动读内存里的值，不会做刷新，
+
+不会重新读。
+
+我们必须得有一种机制，我改了一个值，多个L1，L2, L3缓存之间，值都得刷新一遍。使得值保持一致。
+
+这个机制在底层，所有的cpu都支持， 叫缓存一致性协议。就是保持缓存上的数据一致相同。是一种硬件级别的协议。 基本上每种硬件，各种各样的cpu都支持这个协议。
+
+MESI Cache一致性协议 是 intel cpu的缓存一致性协议的实现。 别的叫msi， mosi， firefly等等
+Modified Exlucsive Shared Invalid -------------- Memory
+
+Cpu每个cache line 标记为以上四种状态（额外两位）
+
+Modified: 本地的变量被修改了
+Exclusive： 被一块缓存独享，其他缓存没有
+Shared： 只读
+Invalid： 过时了，得去内存里再读一遍
+
+四种可以同时存在
+
+如果想保持缓存一致性，触发缓存一致性协议就可以了。
+
+但是    mesi和volatile没有半毛钱关系。
+
+public class helloVolatile{
+  boolean running = ture;
+  
+  void m() {
+    sysout (e start)
+  while(running){
+  }
+  sysout(m end)
+  }
+  
+  main(){
+    helloVolatile t = new hv();
+    
+    new Thread(t::m, "t1").start;
+    
+    SleepHelper.sleepSeconds(1);
+    t.running = false;
+  }
+} 
+
+那我想让这个running值在各个程序间保持一致性，可以加个volatile，保持线程的可见性，这边线程1改了，那边线程2马上就可以看到这边线程1改了. 怎么看到，就通知所有cpu线程
+
+我改了running的值，然而volatile并没有触发mesi协议。 mesi协议的触发是由底层汇编的某些指令触发，并不是volatile， volatile触发的是一条lock指令。
+
+
+
+while(running){
+  这里面加一句 sysout（hello）
+  }
+  
+其实程序也会结束的。
+
+？？ 
+
+为啥也会结束呢。 因为sysout会被java解释执行，改成一堆汇编指令，这里面有一条语言触发了mesi， 这条就是lock指令。
+
+JVM 虚拟机规范要求，只要加了volatile，就得在各个线程间做同步。 但是用lock还是mesi还是别的，无所谓，只要同步了就行。所以mesi 和 volatile没啥关系
+
+
