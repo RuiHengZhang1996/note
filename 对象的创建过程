@@ -1,0 +1,33 @@
+源码： 
+
+class T {
+  int m = 8;
+
+}
+
+T t = new T();
+
+
+m = ？ 
+
+m = 0；  为了安全性起见， java每次拿到这个值的时候，每次都会做一个默认值（0）的初始化，并不是8. 
+
+然后invokespecial以后， m = 8； 
+
+然后astore 建立关联。
+
+在DCL的建立对象过程中 第一个thread来 invokespecial和astrore指令重排了， astore指向一个半初始化的对象，这时候thread2来的话，会直接拿这个半初始化的对象用，这时候m = 0，
+
+m 不等于 8， 怎么阻止这个现象，那就得加个volatile， volatile会保障可见性，也会保障有序性。不过他只是一个修饰词。他怎么阻止重排序的呢？
+
+
+1. jvm 在 volatile写的时候 前给你加个 storestore Barrier. 后续store执行之前，保证store可见，其他人写完了volatile才能写， 下面加一个storeload，我写完了别人才能读。
+
+
+2. jvm 在 volatile读的时候 后面给你加个loadload barrier，我读完别人才能读，然后再加一个loadstore， 我读完别人才能写。
+
+不用掌握 == 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊阿
+
+
+
+
