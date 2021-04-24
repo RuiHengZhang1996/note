@@ -1,0 +1,57 @@
+Thread有这么几个state
+
+从这里可以看出 start会创建新的线程，run不会，run只会在原先的main线程中跑run方法而已。
+
+new---start()->runnable
+
+Runnable： ready(排着队等着cpu跑了)--------线程被调度器选中-》 running真正在cpu里面跑了--------Thread.yield()挂起线程--->ready
+
+timedWaiting------------> Thread.sleep(time)----> o.wait()-------> t.join()--->LockSupport.parkNanos()------时间结束----->runnable
+
+waiting ------------> o.wait()--->t.join()----LockSupport.park()---------> o.notify--->o.notifyAll()------>LockSupport.unpark()----->runnable
+
+----等待锁Synchronized--->blocked----获得锁-------->going runnable
+
+terminated（线程被杀了）------> the end. 不能返回new了
+
+
+这些都是在jvm里被管理的
+
+注意 工程上不要用stop，stop已经被废了，而interrupt会在很深层的地方用来控制流程，但是工程里没有interrupt的身影，来控制业务逻辑，也许会用catch interrupt异常。
+
+
+
+
+
+
+
+
+package com.ruiheng.alglee.ma;
+
+import java.util.concurrent.TimeUnit;
+
+public class ThreadState {
+private static class MyThread extends Thread {
+		
+		@Override
+		public void run() {
+			System.out.println(this.getState());
+			for(int i = 0; i<10; i++) {
+				try {
+					Thread.sleep(50);
+				} catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println(i);
+			}
+		}
+		
+		public static void main(String[] args) {
+			//new MyThread().run();
+			Thread t = new MyThread();
+			System.out.println(t.getState());
+			t.start();
+			
+		}
+	}
+}
