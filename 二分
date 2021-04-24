@@ -1,0 +1,56 @@
+package com.ruiheng.alglee.twodivide;
+
+public class twoDivideLol {
+	
+	public static boolean exist(int [] sortedArr, int num) {
+		if(sortedArr == null || sortedArr.length == 0) {
+			return false;
+		}
+		
+		int L = 0, R = 0, mid = 0;
+		//在LR上搜索
+		
+		//然后砍一半
+		R = sortedArr.length - 1;
+		while(L < R) {
+			mid = (L + R)/2; //向下取整   偶数偏左   奇数中间
+			//mid = L + ((R - L)>>1);
+			//mid = L + ((R-L)/2)
+			if(sortedArr[mid] == num) {
+				return true;
+			} else if(sortedArr[mid] > num) {
+				R = mid -1;
+			} else if(sortedArr[mid] < num) {
+				L = mid + 1;
+			}
+		}
+		
+		return sortedArr[L] == num;
+	}
+	
+	//find <= value most right
+	public static int mostRight(int[] sortedArr, int value) {
+		
+		if(sortedArr == null || sortedArr.length == 0) {
+			return -1;
+		}
+		
+		int L = 0;
+		int R = sortedArr.length - 1;
+		
+		
+		int index = -1;
+		
+		while(L<=R) {
+			int mid = L + ((R - L)>>1);
+			if(sortedArr[mid] <=value) {
+				index = mid;
+				R = mid - 1;
+			} else {
+				L = mid + 1;
+			}
+		}
+		return index;
+		
+	}
+}
