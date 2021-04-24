@@ -1,0 +1,69 @@
+值传递
+
+引用传递
+
+package com.ruiheng.alglee.zuo;
+
+public class ReverseLIst {
+	
+	public static class Node{
+		public int value;
+		public Node next;
+		
+		public Node(int data) {
+			value = data;
+		}
+	}
+	
+	public static class DoubleNode {
+		public int value;
+		public DoubleNode last;
+		public DoubleNode next;
+		
+		public DoubleNode(int data) {
+			value = data;
+		}
+	}
+	
+	public static Node reverseList(Node head) {
+		
+		Node pre = null;
+		Node next = null;
+		
+		while(head !=null) {
+			next = head.next;
+			head.next = pre;
+			pre = head;
+			head = next;
+		}
+		
+		
+		return pre;
+	}
+	
+	public static DoubleNode reverseDlist(DoubleNode head) {
+		
+		DoubleNode pre = null;
+		DoubleNode next = null;
+		
+		while(head !=null) {
+			next = head.next;
+			head.next = pre;
+			head.last = next;
+			pre = head;
+			head = next;
+		}
+		return pre;
+	}
+	public static void main(String[] args) {
+		
+		//create three nodes in memory
+		Node a = new Node(1);
+		
+		a.next = new Node(2);
+		
+		a.next.next = new Node(3);
+		
+		a = reverseList(a);
+	}
+}
