@@ -1,0 +1,88 @@
+sleep 的概念是啥： 
+
+这个线程给我睡500毫秒，先跑别的线程，然后到固定的时间，自动复活
+
+yield的意思是非常谦让的退出一下下， 比如说线程a 和线程b， 线程a运行到yield，先出去一下，上个厕所，待会儿还回来，进入到一个等待队列，操作系统里的算法现在或者待一会儿就
+把线程a拖回来。不过更可能拖回来之前出去上厕所yield的线程，线程们被拖回来之前就是一个就绪的状态
+
+yield比较少用，程序，必须让出来那么一小下，做benchmark，压力测试的时候可能有用一下，但是比较少用。
+
+join：
+如果在 t1 的 某个点上调用了 t2的join（），注意，调用自己的join是毫无意义的，那么当t1跑到t2.join()的时候， 就调用t2，一直到t2 跑完之前， t1就得在原地等t2跑完。
+
+join也常常被用来让线程保持等待
+
+t1， t2， t3 保证他们三个按顺序执行完？ 在主线程里分别调用t1.join(), t2.join(), t3.join()
+
+
+package com.ruiheng.alglee.ma;
+
+public class ThreadSleepYeildJoin {
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//testSleep();
+		//testYield();
+		testJoin();
+		
+	}
+
+	static void testJoin() {
+		// TODO Auto-generated method stub
+		Thread t1 = new Thread(() -> {
+			for(int i = 0; i<100; i++) {
+				System.out.println("A" + i);
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e){
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		Thread t2 = new Thread(() -> {
+			try {
+				t1.join();
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+		
+		
+		t2.start();
+		t1.start();
+	}
+
+	private static void testYield() {
+		// TODO Auto-generated method stub
+		new Thread(() -> {
+			for(int i = 0; i< 100; i++) {
+				System.out.println("A" + i);
+				if(i%10 == 0) Thread.yield();
+			}
+		}).start();
+		
+		new Thread(()->{
+			for(int i = 0; i< 100; i++) {
+				System.out.println("----B" + i);
+				if(i%10 == 0) Thread.yield();
+			}
+		}).start();
+	}
+
+	private static void testSleep() {
+		// TODO Auto-generated method stub
+		new Thread(() -> {
+			for(int i = 0; i<100; i++) {
+				System.out.println("A" + i);
+				try {
+					Thread.sleep(500);
+				}catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
+}
