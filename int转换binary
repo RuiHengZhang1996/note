@@ -1,0 +1,23 @@
+package com.ruiheng.alglee.zuo;
+
+public class getBitString {
+	//得到binary string
+	public static String getBinaryString(int num) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(int i = 31; i >= 0; i--) {
+			builder.append(String.valueOf((num>>i) & 1));
+		}
+		return builder.toString();
+	}
+	
+	//得到 倒过来的 binary string
+	public static String getReverseBinaryString(int num) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(int i = 0; i <= 31; i++) {
+			builder.append(String.valueOf((num>>i) & 1));
+		}
+		return builder.toString();
+	}
+}
