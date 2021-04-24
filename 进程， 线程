@@ -1,6 +1,89 @@
-进程， 是资源分配的基本单位，静态的概念，basic unit for resource distribution
 
-线程， 是调度执行的基本单位，动态的概念
+package com.ruiheng.alglee.ma;
+
+import java.util.concurrent.TimeUnit;
+
+public class Thread01 {
+	
+	private static class T1 extends Thread {
+		
+		@Override
+		public void run() {
+			for(int i = 0; i<10; i++) {
+				
+				try {
+					TimeUnit.MICROSECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println("T1");
+			}
+		}
+		
+		public static void main(String[] args) {
+			new T1().run();
+			for(int i = 0; i< 10; i++) {
+				try {
+					TimeUnit.MICROSECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println("main");
+			}
+		}
+	}
+}
+方法调用；
+
+也可以用 new T1().start(); 这句话会跟主程序一起调用： 
+
+进程，硬盘上有个xx.exe 是一个静态的程序，双击他，就变成了一个进程， 是资源分配的基本单位，静态的概念，basic unit for resource distribution
+
+线程， 是调度执行的基本单位，动态的概念： 一个程序里不同的执行路径。 
+
+创建一个线程两种方式： 
+1. 继承thread类  new MyThread().run();
+2. implements Runnable() new Thread(new MyRun()).start();   
+    或者 new Thread(() ->{
+			System.out.println("hello lambda threads");
+		}).start();;
+
+
+		
+
+package com.ruiheng.alglee.ma;
+
+public class ThreadCreating {
+	
+	static class MyThread extends Thread {
+		
+		@Override 
+		public void run() {
+			System.out.println("hi threads");
+		}
+	}
+	
+	static class MyRun implements Runnable {
+		
+		@Override 
+		public void run() {
+			System.out.println("hi runing threads");
+		}
+	}
+	public static void main(String[] args) {
+		new MyThread().run();
+		
+		new Thread(new MyRun()).start();
+		
+		new Thread(() ->{
+			System.out.println("hello lambda threads");
+		}).start();
+	}
+}
+请你告诉我情动现成的三种方式： 
+
+还有一种 callable： 通过线程池启动： Executors.newCachedThread
+
 
 
 main函数是主线程，进程里第一个启动的线程
@@ -12,7 +95,7 @@ main函数是主线程，进程里第一个启动的线程
 ----------------------------------------------------
 
 
-计算机由cpu  内存组成
+计算机由cpu  内存组成，对于cpu来说，没有线程这个概念
 
 
 
