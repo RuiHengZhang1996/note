@@ -1,0 +1,48 @@
+T.class load到内存里，是单例的吗，一般情况下是的。 如果在同一个classloader，一定是。
+
+synchronized 任何object 只锁对象脑袋上的锁，哪里锁就锁哪里。
+
+一个进程里可以有不同的classloader
+
+同步方法和非同步方法是否可以同步调用？
+
+有一个synchronized m1()， 还有一个m2()， 可以一起调用吗，可以： m1加锁了，可是m2没加锁，m2不关心m1. 你爱干啥干啥
+
+package com.ruiheng.alglee.ma;
+
+public class SyschronizedT4 {
+	
+	public synchronized void m1() {
+		System.out.println(Thread.currentThread().getName() + "m1 start...");
+		
+		try {
+			Thread.sleep(10000);
+			
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println(Thread.currentThread().getName() + "m1 end");
+	}
+	
+	public void m2() {
+		try {
+			Thread.sleep(5000);
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println(Thread.currentThread().getName() + " m2 ");
+	}
+	
+	public static void main(String[] Args) {
+		
+		SyschronizedT4 t = new SyschronizedT4();
+		
+		//new Thread(() ->t.m1(), "t1").start();
+		//new Thread(() -> t.m2(), "t2").start();
+		
+		new Thread(t::m1, "t1").start();
+		new Thread(t::m2, "t2").start();
+	}
+}
+以上小程序验证一下。
+ 
