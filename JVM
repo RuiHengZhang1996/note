@@ -1,0 +1,43 @@
+x.java ---------> javac------> x.class-------java--------->classloader<-----------java类库
+
+
+JVM
+
+classloader------------>字节码解释器--------jit即时编译器-------》执行引擎
+
+
+OS硬件
+
+java是解释执行的还是编译执行的？
+
+混合的----》用很多的代码（执行次数很多）就用jit即时编译器，效率高很多
+
+不是所有代码都会被jit即时编译，这样就不能跨平台了
+
+有100多种语言可以直接在jvm虚拟机上跑。所以java是一个跨语言平台，跨平台语言，这是因为任何语言都可以编译成.class文件。
+
+而jvm一定可以跑class文件。
+
+jvm跟java没啥关系（误），只跟class格式有关系。
+
+jvm是一种规范，定义了应该能执行什么。
+
+
+
+常见的jvm实现：  
+
+hotspot, microsoft vm, j9 IBM. azul：最新的gc标杆（1ms 很快）
+
+Hotspot里的zgc是参考azul的gc，变快了。
+
+
+符合虚拟机规范-- 规范---specification 
+
+vm本身就是一款操作系统。
+
+
+jvm--------> jre: jvm + core lib ---------> jdk: jre + development kit
+
+
+
+
