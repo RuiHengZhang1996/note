@@ -1,0 +1,83 @@
+如果读操作上不加锁的话，设定过程中如果睡2000ms，这时候去读就不是应该有的值，这被叫做dirty read。 
+
+解决就在读上面加个锁。加完锁效率会低100倍。
+
+package com.ruiheng.alglee.ma;
+
+import java.util.concurrent.TimeUnit;
+
+public class SynchronizeBank {
+	
+	
+	String name;
+	double balance;
+	
+	public synchronized void set(String name, double balance) {
+		this.name = name;
+		
+		try {
+			Thread.sleep(2000);
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		this.balance = balance;
+	}
+	
+	public synchronized double getBalance(String name) {
+		return this.balance;
+	}
+	
+	public static void main(String[] Args) {
+		SynchronizeBank a = new SynchronizeBank();
+		new Thread(() -> a.set("att", 100.0)).start();
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(a.getBalance("att"));
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(a.getBalance("att"));
+	}
+}
+
+
+synchronized是可重入锁，synchronized锁的是this对象
+
+synchronized m1() 和  方法 synchronized m2()  ， m1()里是可以调用m2()的 ，不然是会死锁的。比如说有个父类，子类super继承父类的时候，锁必须是可以访问的。
+package com.ruiheng.alglee.ma;
+
+import java.util.concurrent.TimeUnit;
+
+public class SynchronizedT5 {
+	
+	synchronized void m1() {
+		System.out.println("m1 start");
+		try {
+			TimeUnit.SECONDS.sleep(1);
+			
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		m2();
+		System.out.println("m1 end");
+	}
+	
+	synchronized void m2() {
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+
+程序执行之中出现异常的话，锁会被释放的
