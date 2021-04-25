@@ -1,0 +1,41 @@
+package com.ruiheng.alglee.ma;
+
+public class SynchornizeT {
+	
+	private int count = 10;
+	
+	private Object o = new Object();
+	
+	public void m() {
+		synchronized(o) {
+			count--;
+			System.out.println(Thread.currentThread().getName() + "count = " + count);
+		}
+	}
+}
+
+就好比上厕所要锁门一样，共同访问资源的时候也要上锁
+
+sync 
+
+sync的是什么呢？ sync的是资源头上的一把锁，对象访问资源的时候会查看这把锁是不是自己的。是自己的就执行下面的代码
+
+
+package com.ruiheng.alglee.ma;
+
+public class SynchronizedT2 {
+	
+	private int count = 10;
+	
+	public void m() {
+		synchronized(this🙌) {
+			count--;
+			System.out.println(Thread.currentThread().getName() + "count = " + count);
+		}
+	}
+}
+
+也可以 public sychronized void m(){} == public void m() {synchronized(this🙌) }
+
+public synchronized static void m() {} 相当于 synchronized（T.class）锁了当前的class的对象
+
