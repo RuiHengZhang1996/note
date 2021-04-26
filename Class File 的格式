@@ -1,0 +1,15 @@
+magic number： 一大堆十六进制数（占4位） CA FE BA BE
+
+minor version： 00 00 
+
+major version: 00 34
+
+constant_pool_count常量池里多少常量： 00 10 : 16个
+
+constant_pool： 长度为 constant_pool_count-1的表 
+
+access_flags: 是public 还是private还是interface还是abstract等等
+
+this_class: 
+
+super_class: 
