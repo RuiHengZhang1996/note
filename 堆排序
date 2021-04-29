@@ -1,0 +1,31 @@
+那么用户给你一个数组
+0-0 变成大根堆
+0-1 变成大根堆
+0-2 变成大根堆
+
+
+然后
+
+1.整个数组全变成大根堆
+2.从0位置到n-1位置，将0位置放到n-1，因为0位置最大
+3.将1~n-1位置heapify
+4.以此类推
+
+
+public static void heapSort(int[] arr) {
+			if(arr == null || arr.length < 2) {
+				return;
+			}
+			
+			for(int i = 0; i < arr.length; i++) {
+				heapInsert(arr, i);
+			}
+			int heapSize = arr.length;
+			swap(arr, 0, --heapSize);
+			while(heapSize > 0) {
+				heapify(arr, 0, heapSize);
+				swap(arr, 0, --heapSize);
+			}
+		}
+
+
